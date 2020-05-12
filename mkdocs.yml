@@ -1,0 +1,20 @@
+site_name: AXI Interfacer
+nav:
+    - Home: index.md
+    - API: api.md
+    - Protocol: protocol.md
+    - References: references.md
+theme: readthedocs
+plugins:
+    - markdownwavedrom
+    - search
+    - bibtex:
+        bib_file: "refs.bib"
+        cite_style: "plain"
+
+extra_javascript:
+    # - wavedrom.unpkg.js
+    # - skin-default.js
+    # above, place *.js in docs directory, or below from internet.
+    - https://cdn.jsdelivr.net/npm/wavedrom@2.1.2/wavedrom.unpkg.js
+    - https://wavedrom.com/skins/default.js
