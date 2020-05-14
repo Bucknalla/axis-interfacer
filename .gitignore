@@ -8,3 +8,4 @@ parser.out
 parsetab.py
 *.egg-info
 build
+dist
