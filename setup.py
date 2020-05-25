@@ -8,9 +8,10 @@ setup(
     name = "interfacer",
     version = "0.0.1",
     packages=['interfacer'],
-    package_data = {'axis-interfacer' : [
-        'protocols/axis.json',
-        'templates/generate.tcl.j2'
+    package_data = {'interfacer' : [
+        'protocols/protocol.json',
+        'templates/generate.tcl.j2',
+        'templates/base.j2'
     ]},
     author = "Alex Bucknall",
     author_email = "alex.bucknall@gmail.com",
@@ -27,6 +28,7 @@ setup(
     ],
     install_requires=[
         'pyverilog==1.2.0',
+        'colorlog==4.1.0',
         'mkdocs>=1.1',
         'mkdocs-wavedrom-plugin==0.1.1',
         'mkdocs-bibtex==0.2.3',

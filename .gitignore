@@ -9,3 +9,5 @@ parsetab.py
 *.egg-info
 build
 dist
+.Xil
+*.log

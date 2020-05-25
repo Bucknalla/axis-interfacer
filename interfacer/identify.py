@@ -4,35 +4,38 @@ from optparse import OptionParser
 import json
 from pyverilog.dataflow.dataflow_analyzer import VerilogDataflowAnalyzer
 import pyverilog.utils.op2mark as op2mark
-import util
+import interfacer.module as mod
+import interfacer.generate as gen
+import interfacer.utils as util
 
 class Identify(object):
 	def __init__(self):
+		self.log = util.log(self.__class__.__name__, enable=True, testing=True)
 		self.version = "0.0.1"
 		self.top = None
 		self.filelist = []
 
-	def __inSet__(self, direction):
+	def __inSet(self, direction):
 		if 'Input' in direction:
 			return('input')
 		if 'Output' in direction:
 			return('output')
 
-	def __convert__(self,s): 
+	def __convert(self,s): 
 		new = "(" 
 		for x in s: 
 			new += str(x)  
 		new += ")"
 		return new 
 
-	def __dive__(self, node, path, params):
+	def __dive(self, node, path, params):
 		if hasattr(node,'nextnodes'):
 			temp = []
 			for i,each in enumerate(node.nextnodes):
 					if hasattr(node,'operator') & i == 1:
 						temp.append(op2mark.op2mark(node.operator))
-					self.__dive__(each,temp,params)
-			path.append(self.__convert__(temp))
+					self.__dive(each,temp,params)
+			path.append(self.__convert(temp))
 		else:
 			if hasattr(node,'name'):
 					# print(node.name)
@@ -41,7 +44,7 @@ class Identify(object):
 			if hasattr(node,'value'):
 					path.append(int(node.value))
 
-	def __evaluate__(self, value, params):
+	def __evaluate(self, value, params):
 		try:
 			return int(eval(value))
 		except:
@@ -51,12 +54,15 @@ class Identify(object):
 					try:
 						return int(value)
 					except:
-						print("ERROR")
+						self.log.logger.error('Invalid value.')
 
-	def load(self,top,files):
-
-		self.top = top
-		self.filelist = files
+	def load(self,obj):
+		if isinstance(obj, mod.Module):
+			self.top = obj.name
+			self.filelist = obj.files
+			self.blackboxes = obj.blackboxes
+		else:
+			raise ValueError('Not a valid object')
 
 		for f in self.filelist:
 			if not os.path.exists(f): raise IOError("file not found: " + f)
@@ -67,7 +73,6 @@ class Identify(object):
 													preprocess_include=[],
 													preprocess_define=[])
 		analyzer.generate()
-
 		module_dict = {}
 		module_dict['name'] = self.top
 		module_dict['ports'] = {}
@@ -87,23 +92,38 @@ class Identify(object):
 					params[bvi.dest] = bvi.tree
 		for tk, tv in terms.items():
 			scope = tv.getScope(tv.name)
-			if ('Input' in tv.termtype or 'Output' in tv.termtype) & tv.isTopmodule(scope):
+			if ('Input' in tv.termtype or 'Output' in tv.termtype) & (str(scope) in self.blackboxes):
 				path = []
-				self.__dive__(tv.msb,path,params)
-				msb = self.__evaluate__(path[0],params)
+				self.__dive(tv.msb,path,params)
+				msb = self.__evaluate(path[0],params)
 				path = []
-				self.__dive__(tv.lsb,path,params)
-				lsb = self.__evaluate__(path[0],params)
+				self.__dive(tv.lsb,path,params)
+				lsb = self.__evaluate(path[0],params)
 				name = str(tv.name).split('.')[-1]
-				direction = self.__inSet__(tv.termtype)
+				direction = self.__inSet(tv.termtype)
 				port = {
 					'msb'  : msb,
 					'lsb'  : lsb,
 					'direction' : direction
 					}
 				module_dict['ports'][name] = port
-		print(json.dumps(module_dict,sort_keys=True, indent=4))
+		obj.update(module_dict)
 
 if __name__ == '__main__':
-	 iden = Identify()
-	 iden.load("blinky_zybo_z7",["examples/test.v","examples/mod.v"])
+	obj = mod.Module(top="blinky_zybo_z7",files=["../examples/rtl/top.v","../examples/rtl/blink.v"], blackboxes=['blinky_zybo_z7'])
+
+	obj.add_mode('mode_a',["../examples/rtl/top_0.v","../examples/rtl/blink.v"],"../examples/rtl/zybo.xdc")
+	obj.add_mode('mode_b',["../examples/rtl/top_1.v","../examples/rtl/blink.v"],"../examples/rtl/zybo.xdc")
+
+	obj.list_modes()
+
+	# print(dir(obj))
+
+	iden = Identify()
+	iden.load(obj)
+
+	gen = gen.Generate()
+	gen.load(obj)
+	# gen.wrapper(xilinx_pragmas=False)
+	gen.blackbox()
+	gen.write("../examples/out")

@@ -10,5 +10,13 @@ module blinky_zybo_z7
      (.clk (clk),
       .q   (q));
 
-endmodule
+   blinky #(.clk_freq_hz (125_000_000)) blinky_0
+     (.clk (clk),
+      .q   (q));
 
+   blinky #(.clk_freq_hz (125_000_000)) blinky_1
+     (.clk (clk),
+      .q   (q));
+
+
+endmodule
