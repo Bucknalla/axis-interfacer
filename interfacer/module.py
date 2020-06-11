@@ -82,3 +82,4 @@ class Module(object):
     def list_modes(self):
         for mode in self.modes:
             self.log.logger.info('{}:{}'.format(mode,self.modes[mode]['files']))
+        return self.modes

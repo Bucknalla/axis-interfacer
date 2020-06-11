@@ -18,16 +18,5 @@ module blinky_zybo_z7
      (.clk (clk),
       .q   (q));
 
-  missing_module #
-    (
-     .STEP(100)
-     )
-  inst_missing_module
-    (
-     .CLK(CLK),
-     .RST(RST),
-     .LED(LED)
-     );
-
 endmodule
 

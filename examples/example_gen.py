@@ -11,10 +11,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 obj = Module(top="blinky_zybo_z7",files=["rtl/top.v","rtl/blink.v"], blackboxes=['inst'])
 
-obj.add_mode('mode_a',["rtl/top_0.v","rtl/blink.v"],"rtl/zybo.xdc",ipcores=['rtl/test.xci'])
+obj.add_mode('mode_a',["rtl/top_0.v","rtl/blink.v"],"rtl/zybo.xdc")
 obj.add_mode('mode_b',["rtl/top_1.v","rtl/blink.v"],"rtl/zybo.xdc")
 
-obj.list_modes()
+# print(obj.list_modes())
 
 # print(dir(obj))
 

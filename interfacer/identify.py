@@ -71,7 +71,8 @@ class Identify(object):
 													noreorder=False,
 													nobind=False,
 													preprocess_include=[],
-													preprocess_define=[])
+													preprocess_define=[],
+													preprocess_ignoremodules=True)
 		analyzer.generate()
 		module_dict = {}
 		module_dict['name'] = self.top

@@ -27,7 +27,7 @@ setup(
         "Topic :: Utilities",
     ],
     install_requires=[
-        'pyverilog==1.2.0',
+        'pyverilog==1.2.3',
         'colorlog==4.1.0',
         'mkdocs>=1.1',
         'mkdocs-wavedrom-plugin==0.1.1',

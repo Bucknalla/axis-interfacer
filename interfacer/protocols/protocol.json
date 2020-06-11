@@ -1,74 +1,74 @@
 {
-    "VERSION":"0.0.1",
-    "PROTOCOLS":{
-        "SIGNAL":{
-            "CLOCK":{
-                "PARAMETERS":{
+    "VERSION": "0.0.1",
+    "PROTOCOLS": {
+        "SIGNAL": {
+            "CLOCK": {
+                "PARAMETERS": {
                     "PRAGMA": "(* X_INTERFACE_PARAMETER = \"ASSOCIATED_BUSIF {0}, ASSOCIATED_RESET {1}, FREQ_HZ {2}\" *)"
                 },
-                "INFO":{
+                "INFO": {
                     "PRAGMA": "(* X_INTERFACE_INFO = \"xilinx.com:signal:clock:1.0 {0} {1}\" *)",
-                    "INTERFACE":{
-                        "CLK":{
+                    "INTERFACE": {
+                        "CLK": {
                             "REQUIRED": true,
-                            "ALTERNATIVES":["clk","clock"]
-                        }                    
+                            "ALTERNATIVES": ["clk", "clock"]
+                        }
                     }
                 }
             },
-            "CLOCK_ENABLE":{
-                "PARAMETERS":{
-                    "PRAGMA": "(* X_INTERFACE_PARAMETER = \"POLARITY {0}\" *)"
-                    },
-                "INFO":{
-                    "PRAGMA": "(* X_INTERFACE_INFO = \"xilinx.com:signal:clockenable:1.0 {0} {1}\" *)",
-                    "INTERFACE":{
-                        "CE":{
-                            "REQUIRED": true,
-                            "ALTERNATIVES":["ce","clock_enable"]
-                        }                    
-                    }
-                }
-            },
-            "RESET":{
-                "PARAMETERS":{
+            "CLOCK_ENABLE": {
+                "PARAMETERS": {
                     "PRAGMA": "(* X_INTERFACE_PARAMETER = \"POLARITY {0}\" *)"
                 },
-                "INFO":{
-                    "PRAGMA": "(* X_INTERFACE_INFO = \"xilinx.com:signal:reset:1.0 {0} {1}\" *)",
-                    "INTERFACE":{
-                        "RST":{
+                "INFO": {
+                    "PRAGMA": "(* X_INTERFACE_INFO = \"xilinx.com:signal:clockenable:1.0 {0} {1}\" *)",
+                    "INTERFACE": {
+                        "CE": {
                             "REQUIRED": true,
-                            "ALTERNATIVES":["rst","reset"]
-                        }                    
+                            "ALTERNATIVES": ["ce", "clock_enable"]
+                        }
                     }
                 }
             },
-            "INTERRUPT":{
-                "PARAMETERS":{
+            "RESET": {
+                "PARAMETERS": {
+                    "PRAGMA": "(* X_INTERFACE_PARAMETER = \"POLARITY {0}\" *)"
+                },
+                "INFO": {
+                    "PRAGMA": "(* X_INTERFACE_INFO = \"xilinx.com:signal:reset:1.0 {0} {1}\" *)",
+                    "INTERFACE": {
+                        "RST": {
+                            "REQUIRED": true,
+                            "ALTERNATIVES": ["rst", "reset"]
+                        }
+                    }
+                }
+            },
+            "INTERRUPT": {
+                "PARAMETERS": {
                     "PRAGMA": "(* X_INTERFACE_PARAMETER = \"SENSITIVITY {0}\" *)"
                 },
-                "INFO":{
+                "INFO": {
                     "PRAGMA": "(* X_INTERFACE_INFO = \"xilinx.com:signal:interrupt:1.0 {0} {1}\" *)",
-                    "INTERFACE":{
-                        "INTERRUPT":{
+                    "INTERFACE": {
+                        "INTERRUPT": {
                             "REQUIRED": false,
-                            "ALTERNATIVES":["irq","interrupt"]
-                        }                    
+                            "ALTERNATIVES": ["irq", "interrupt"]
+                        }
                     }
                 }
             }
         },
-        "AXI":{
-            "STREAM":{
-                "PARAMETERS":{
+        "AXI": {
+            "STREAM": {
+                "PARAMETERS": {
                     "PRAGMA": "(* X_INTERFACE_PARAMETER = \"{0}\" *)",
-                    "PARAM":{
+                    "PARAM": {
                         "CLK_DOMAIN": "string",
                         "PHASE": "float",
                         "FREQ_HZ": "float",
                         "LAYERED_METADATA": "string",
-                        "HAS_TLAST": "bool", 
+                        "HAS_TLAST": "bool",
                         "HAS_TKEEP": "bool",
                         "HAS_TSTRB": "bool",
                         "HAS_TREADY": "bool",
@@ -78,34 +78,34 @@
                         "TDATA_NUM_BYTES": "int"
                     }
                 },
-                "INFO":{
+                "INFO": {
                     "PRAGMA": "(* X_INTERFACE_INFO = \"xilinx.com:interface:axis:1.0 {0} {1}\" *)",
-                    "INTERFACE":{
-                        "TID":{
+                    "INTERFACE": {
+                        "TID": {
                             "REQUIRED": false
                         },
-                        "TDEST":{
+                        "TDEST": {
                             "REQUIRED": false
                         },
-                        "TDATA":{
+                        "TDATA": {
                             "REQUIRED": true
                         },
-                        "TSTRB":{
+                        "TSTRB": {
                             "REQUIRED": false
                         },
-                        "TKEEP":{
+                        "TKEEP": {
                             "REQUIRED": false
                         },
-                        "TLAST":{
+                        "TLAST": {
                             "REQUIRED": false
                         },
-                        "TUSER":{
+                        "TUSER": {
                             "REQUIRED": false
                         },
-                        "TVALID":{
+                        "TVALID": {
                             "REQUIRED": true
                         },
-                        "TREADY":{
+                        "TREADY": {
                             "REQUIRED": true
                         }
                     }
